@@ -1,11 +1,12 @@
--- USERS: Stores details of people registered in the system (members or staff)
 
 
+-- creating data base for library users database
 CREATE DATABASE LIBRARY_USERS;
+-- using database 
 USE LIBRARY_USERS;
 
-
-CREATE TABLE users (
+-- USERS: Stores details of people registered in the system (members or staff) 
+CREATE TABLE users_table(
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
     email_id VARCHAR(100) UNIQUE NOT NULL,
@@ -14,8 +15,8 @@ CREATE TABLE users (
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- BOOKS: Information about books available in the library
-CREATE TABLE books (
+-- BOOKS: Information about books available in the library 
+CREATE TABLE books_table(
     book_id INT AUTO_INCREMENT PRIMARY KEY,
     title_name VARCHAR(255) NOT NULL,
     author_name VARCHAR(100),
@@ -28,7 +29,7 @@ CREATE TABLE books (
 
 -- TRANSACTIONS: Records when a user borrows or returns a book
 -- date should be in the form of 'YYYY-MM-DD'
-CREATE TABLE transactions (
+CREATE TABLE transactions_table(
     transaction_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     book_id INT NOT NULL,
@@ -37,30 +38,30 @@ CREATE TABLE transactions (
     return_date DATE,
     status ENUM('borrowed', 'returned', 'late') DEFAULT 'borrowed',
     -- Foreign key constraints for referential integrity
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users_table(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES bookstable(book_id) ON DELETE CASCADE
 );
 
--- INDEXES for performance on frequent search/filter operations
-CREATE INDEX idx_user_email ON users(email);
-CREATE INDEX idx_book_title ON books(title);
-CREATE INDEX idx_transaction_user_book ON transactions(user_id, book_id);
+-- INDEXES for performance on frequent search/filter operations effectively 
+CREATE INDEX idx_user_email ON users_table(email_id);
+CREATE INDEX idx_book_title ON books_table(title_name);
+CREATE INDEX idx_transaction_user_book ON transactions_table(user_id, book_id);
 
 
 
 -- Insert sample users of library --
-INSERT INTO users (full_name, email_id, phone_no, role)
+INSERT INTO users_table(full_name, email_id, phone_no, role)
 VALUES 
 ('Aarav Kumar', 'aarav.kumar@example.com', '9876543210', 'member'),
 ('Priya Sharma', 'priya.sharma@example.com', '9876512345', 'staff');
 
 -- Insert sample books
-INSERT INTO books (title_name, author_name, genre_type, isbn_no, total_no_copies, available_copies)
+INSERT INTO books_table(title_name, author_name, genre_type, isbn_no, total_no_copies, available_copies)
 VALUES
 ('To Kill a Mockingbird', 'Harper Lee', 'Fiction', '9780061120084', 5, 5),
 ('1984', 'George Orwell', 'Dystopian', '9780451524935', 3, 3);
 
 -- Insert a sample transaction --
-INSERT INTO transactions (user_id, book_id, date_of_issue, due_date, status)
+INSERT INTO transactions_table(user_id, book_id, date_of_issue, due_date, status)
 VALUES
 (1, 2, '2025-04-20', '2025-05-04', 'borrowed');
