@@ -65,3 +65,18 @@ VALUES
 INSERT INTO transactions_table(user_id, book_id, date_of_issue, due_date, status)
 VALUES
 (1, 2, '2025-04-20', '2025-05-04', 'borrowed');
+
+-- Retrieving all borrowed books that are currently overdue and not yet returned.
+SELECT 
+    u.full_name,
+    b.title_name, --
+    t.issue_date,
+    t.date_of_issue
+FROM 
+    transactions AS t
+JOIN users AS u ON t.user_id = u.user_id-- inner joining at user_id
+JOIN books AS b ON t.book_id = b.book_id -- inner joining at book_id
+WHERE 
+    t.return_date IS NULL -- making condition that , return_date is null
+    AND t.due_date < CURDATE() -- and due_date is less than persert data
+    AND t.status = 'borrowed'; -- and conforming that the user is borrowed form the store
