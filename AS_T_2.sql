@@ -40,7 +40,7 @@ CREATE TABLE salary_records_table (
 );
 
 -- INDEXES for fast queries on common filters
-CREATE INDEX idx_emp_email_id ON employees_table(email);
+CREATE INDEX idx_emp_email_id ON employees_table(email_id);
 CREATE INDEX idx_salary_month ON salary_records_table(salary_month);
 CREATE INDEX idx_emp_month ON salary_records_table(emp_id, salary_month);
 
