@@ -66,4 +66,19 @@ VALUES
 -- used to drop database if needed
 DROP DATABASE EMPLOYEE_DB;
 
+-- here the query Retrieves April 2025 payroll with department and net salary for all active employees.
+SELECT 
+    e.full_name,
+    e.job_title,
+    d.dept_name,
+    s.salary_month,
+    s.basic_salary,
+    s.bonus,
+    s.deductions,
+    s.net_salary
+FROM salary_records_table AS s
+JOIN employees_table  AS e ON s.emp_id = e.emp_id
+LEFT JOIN departments_table AS d ON e.dept_id = d.dept_id
+WHERE s.salary_month = '2025-04-01'
+  AND e.is_active = TRUE;
 
